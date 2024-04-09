@@ -2,7 +2,7 @@
 
 The API will be serving an RPN calculator
 
-##Running
+## Running
 
 To run the server:
 1. give execution rights to init.sh:
