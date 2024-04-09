@@ -1,0 +1,250 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "description": "rpn api",
+        "version": "1.0.0",
+        "title": "RPN"
+    },
+    "tags": [
+        {
+            "name": "RPN",
+            "description": "rpn api"
+        }
+    ],
+    "paths": {
+        "/rpn/op": {
+            "get": {
+                "tags": [
+                    "RPN"
+                ],
+                "summary": "List all the operand",
+                "responses": {
+                    "200": {
+                        "description": "ok",
+                        "schema": {
+                            "$ref": "#/components/schemas/operandList"
+                        }
+                    }
+                }
+            }
+        },
+        "/rpm/stack": {
+            "get": {
+                "tags": [
+                    "RPN"
+                ],
+                "summary": "List the available stacks",
+                "responses": {
+                    "200": {
+                        "description": "ok",
+                        "schema": {
+                            "$ref": "#/components/schemas/stackList"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "RPN"
+                ],
+                "summary": "Create a new stack",
+                "requestBody": {
+                    "description": "Add a new stack",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/createStackRequest"
+                            }
+                        }
+                    }
+                },
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "201": {
+                        "description": "ok",
+                        "schema": {
+                            "$ref": "#/components/schemas/stack"
+                        }
+
+                    }
+                }
+            }
+        },
+        "/rpm/stack/{stack_id}/op/{op}": {
+            "post": {
+                "tags": [
+                    "RPN"
+                ],
+                "summary": "Apply an operand to a stack",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "stack_id",
+                        "required": true,
+                        "description": "Stack Id",
+                        "schema": {
+                            "$ref": "#/components/schemas/stack_id"
+                        }
+                    },
+                    {
+                        "in": "path",
+                        "name": "op",
+                        "required": true,
+                        "description": "Operand to apply",
+                        "schema": {
+                            "$ref": "#/components/schemas/operand"
+                        }
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "201": {
+                        "description": "ok",
+                        "schema": {
+                            "$ref": "#/components/schemas/stack"
+                        }
+
+                    }
+                }
+            }
+        },
+        "/rpm/stack/{stack_id}": {
+            "get": {
+                "tags": [
+                    "RPN"
+                ],
+                
+                "summary": "Get a stack",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "stack_id",
+                        "required": true,
+                        "description": "Stack Id",
+                        "schema": {
+                            "$ref": "#/components/schemas/stack_id"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ok",
+                        "schema": {
+                            "$ref": "#/components/schemas/stack"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "RPN"
+                ],
+                "summary": "Push a new value to a stack",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "stack_id",
+                        "required": true,
+                        "description": "Stack Id",
+                        "schema": {
+                            "$ref": "#/components/schemas/stack_id"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Add value to stack",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/addValueRequest"
+                            }
+                        }
+                    }
+                },
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "201": {
+                        "description": "ok",
+                        "schema": {
+                            "$ref": "#/components/schemas/stack"
+                        }
+
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "RPN"
+                ],
+                
+                "summary": "Get a stack",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "stack_id",
+                        "required": true,
+                        "description": "Stack Id",
+                        "schema": {
+                            "$ref": "#/components/schemas/stack_id"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "ok",
+                        "schema": {
+                            "$ref": "#/components/schemas/stack"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "operand":{
+                "type": "string",
+                "example": "'+'"
+            },
+            "operandList": {
+                "type": "array",
+                "items": "#/components/schemas/operand"
+            },
+            "addValueRequest": {
+                "type": "object",
+                "properties": {
+                    "value": {
+                        "type": "string",
+                        "description": "value to push to stack",
+                        "example": "5"
+                    }
+                }
+            },
+            "createStackRequest": {
+                "type": "object",
+                "properties": {
+                    "stack": {
+                        "type": "string",
+                        "description": "inital value of stack",
+                        "example": "[1,2,3,4]"
+                    }
+                }
+            },
+            "stack": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "format": "UUID"
+                    }
+                }
+            }
+        }
+    }
+}

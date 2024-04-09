@@ -1,0 +1,17 @@
+openapi: 3.0.0
+paths:
+  /rpn/op:
+    get:
+      responses:
+        "200":
+          description: Sucess
+          content:
+            application/json:
+            $ref: "#/components/schemas/opList"
+
+components:
+  schemas:
+    opList:
+      properties:
+        operands:
+          name: operand list
